@@ -106,11 +106,12 @@ def loop(user, reddit, utils):
 					
 					try:
 						
-						submission.add_comment(
+						reply = (
 							'Here is a word cloud of all of the comments in this thread: ' + upload + '\n\n'
 							'*****\n'
 							'[^source ^code](https:/github.com/WinneonSword/makeswordclouds) ^| [^contact ^developer](http://reddit.com/user/WinneonSword)'
 						)
+						utils.handle_rate_limit(submission.add_comment, reply)
 						
 						print('> Comment posted! Link: ' + upload)
 						utils.replied.add(submission.id)
@@ -157,6 +158,20 @@ class Utils:
 			
 		self.replied = set(resp)
 		
+	def handle_rate_limit(func, *args):
+		
+		while True:
+			
+			try:
+				
+				func(*args)
+				break
+				
+			except praw.errors.RateLimitExceeded as error:
+				
+				print('> Rate limit exceeded! Sleeping for ' + error.sleep_time + ' seconds...')
+				time.sleep(error.sleep_time)
+				
 	def get_submission_comments(self, id):
 		
 		submission = self.reddit.get_submission(submission_id = id, comment_limit = None)
