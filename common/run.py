@@ -150,9 +150,9 @@ class Utils:
 		if os.path.exists(self.replied_file):
 			
 			opened= open(self.replied_file).read()
-			resp = json.loads(opened)
+			resp = json.loads(opened)['replied']
 			
-		self.replied = set(resp['replied'])
+		self.replied = set(resp)
 		
 	def get_submission_comments(self, id):
 		
