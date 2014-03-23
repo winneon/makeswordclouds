@@ -109,7 +109,7 @@ def loop(user, reddit, utils):
 						reply = (
 							'Here is a word cloud of all of the comments in this thread: ' + upload + '\n\n'
 							'*****\n'
-							'[^source ^code](https:/github.com/WinneonSword/makeswordclouds) ^| [^contact ^developer](http://reddit.com/user/WinneonSword)'
+							'[^source ^code](https://github.com/WinneonSword/makeswordclouds) ^| [^contact ^developer](http://reddit.com/user/WinneonSword)'
 						)
 						utils.handle_rate_limit(submission, reply)
 						
