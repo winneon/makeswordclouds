@@ -111,7 +111,7 @@ def loop(user, reddit, utils):
 							'*****\n'
 							'[^source ^code](https:/github.com/WinneonSword/makeswordclouds) ^| [^contact ^developer](http://reddit.com/user/WinneonSword)'
 						)
-						utils.handle_rate_limit(submission.add_comment, reply)
+						utils.handle_rate_limit(submission, reply)
 						
 						print('> Comment posted! Link: ' + upload)
 						utils.replied.add(submission.id)
@@ -158,13 +158,13 @@ class Utils:
 			
 		self.replied = set(resp)
 		
-	def handle_rate_limit(func, *args):
+	def handle_rate_limit(submission, reply):
 		
 		while True:
 			
 			try:
 				
-				func(args)
+				submission.add_comment(reply)
 				break
 				
 			except praw.errors.RateLimitExceeded as error:
