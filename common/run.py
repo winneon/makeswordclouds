@@ -158,7 +158,7 @@ class Utils:
 			
 		self.replied = set(resp)
 		
-	def handle_rate_limit(submission, reply):
+	def handle_rate_limit(self, submission, reply):
 		
 		while True:
 			
