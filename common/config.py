@@ -7,8 +7,6 @@ def write(config, file):
 	with open(file, 'w') as w:
 	
 		w.write(conf)
-		
-	conf.close()
 	
 def load(file):
 	
