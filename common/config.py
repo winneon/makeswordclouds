@@ -7,7 +7,7 @@ def write(config, file):
 	with open(file, 'w') as w:
 	
 		w.write(conf)
-	
+		
 def load(file):
 	
 	conf = json.loads(open(file).read())

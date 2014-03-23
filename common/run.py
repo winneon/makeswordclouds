@@ -188,8 +188,8 @@ class Utils:
 	def make_cloud(self, text):
 		
 		words = wordcloud.process_text(text)
-		elements = wordcloud.fit_words(words)
-		wordcloud.draw(elements, self.out)
+		elements = wordcloud.fit_words(words, width = 400, height = 400)
+		wordcloud.draw(elements, self.out, width = 400, height = 400, scale = 2)
 		
 		return self.out
 		
