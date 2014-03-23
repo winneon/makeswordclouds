@@ -178,7 +178,7 @@ class Utils:
 		
 		return self.out
 		
-	def upload(self, file):
+	def upload_image(self, file):
 		
 		imgur = pyimgur.Imgur(self.config['id'])
 		upload = imgur.upload_image(file)
