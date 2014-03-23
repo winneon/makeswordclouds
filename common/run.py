@@ -164,7 +164,7 @@ class Utils:
 		
 		for comment in comments:
 			
-			if isInstance(comment, praw.objects.Comment):
+			if isinstance(comment, praw.objects.Comment):
 				
 				text += comment + '\n'
 				
