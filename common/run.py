@@ -166,7 +166,7 @@ class Utils:
 			
 			if isinstance(comment, praw.objects.Comment):
 				
-				text += comment + '\n'
+				text += comment.body + '\n'
 				
 		return text
 		
