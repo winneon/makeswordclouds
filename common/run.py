@@ -177,3 +177,4 @@ class Utils:
 		
 		return upload.link
 		
+bootup()
