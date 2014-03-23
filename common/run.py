@@ -169,7 +169,7 @@ class Utils:
 				
 			except praw.errors.RateLimitExceeded as error:
 				
-				print('> Rate limit exceeded! Sleeping for ' + error.sleep_time + ' seconds...')
+				print('> Rate limit exceeded! Sleeping for %s seconds...' % error.sleep_time)
 				time.sleep(error.sleep_time)
 				
 	def get_submission_comments(self, id):
