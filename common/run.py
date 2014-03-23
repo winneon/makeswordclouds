@@ -88,7 +88,7 @@ def loop(user, reddit, utils):
 		
 		while True:
 			
-			print('\n> Checking comments for valid entries...')
+			print('\n> Checking submissions for valid entries...')
 			submissions = reddit.get_subreddit('all').get_hot(limit = 100)
 			
 			for submission in submissions:
