@@ -79,7 +79,7 @@ def bootup():
 	reddit.login(user, passwd, r)
 	loop(user, r, utils)
 	
-def loop(user, r, utils):
+def loop(user, reddit, utils):
 	
 	print('\n> Booting up makeswordclouds. You will be notified when makeswordclouds detects a broken link.')
 	print('> To stop the bot, press Ctrl + C.')
@@ -89,7 +89,7 @@ def loop(user, r, utils):
 		while True:
 			
 			print('\n> Checking comments for valid entries...')
-			submissions = r.get_subreddit('all').get_hot(limit = 100)
+			submissions = reddit.get_subreddit('all').get_hot(limit = 100)
 			
 			for submission in submissions:
 				
@@ -136,7 +136,7 @@ def loop(user, r, utils):
 		
 		print('\n> An error has occured. Restarting the bot.')
 		traceback.print_exc(file = sys.stdout)
-		loop(reddit, config, utils)
+		loop(user, reddit, utils)
 		
 class Utils:
 	
