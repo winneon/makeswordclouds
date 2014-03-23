@@ -164,7 +164,7 @@ class Utils:
 			
 			try:
 				
-				func(*args)
+				func(args)
 				break
 				
 			except praw.errors.RateLimitExceeded as error:
