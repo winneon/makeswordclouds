@@ -117,9 +117,9 @@ def loop(user, reddit, utils):
 						utils.replied.add(submission.id)
 						
 						out = open(utils.replied_file, 'w')
-						list = list(utils.replied)
+						listt = list(utils.replied)
 						
-						out.write(json.dumps(list))
+						out.write(json.dumps(listt))
 						out.close()
 						
 					except:
