@@ -116,11 +116,10 @@ def loop(user, reddit, utils):
 						print('> Comment posted! Link: ' + upload)
 						utils.replied.add(submission.id)
 						
-						out = open(utils.replied_file, 'w')
 						listt = list(utils.replied)
+						replied_current['replied'] = listt
 						
-						out.write(json.dumps(listt))
-						out.close()
+						config.write(replied_current, utils.replied_file)
 						
 					except:
 						

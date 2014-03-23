@@ -8,6 +8,8 @@ def write(config, file):
 	
 		w.write(conf)
 		
+	conf.close()
+	
 def load(file):
 	
 	conf = json.loads(open(file).read())
