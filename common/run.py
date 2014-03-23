@@ -158,7 +158,7 @@ class Utils:
 		
 	def get_submission_comments(self, id):
 		
-		submission = reddit.get_submission(submission_id = id, comment_limit = None)
+		submission = self.reddit.get_submission(submission_id = id, comment_limit = None)
 		comments = praw.helpers.flatten_tree(submisison.comments)
 		text = ''
 		
