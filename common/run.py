@@ -14,6 +14,12 @@ current = {
 	
 }
 
+replied_current {
+	
+	'replied:': [],
+	
+}
+
 config_name = 'config.json'
 
 def bootup():
@@ -27,10 +33,10 @@ def bootup():
 	print('\nMWC // version ' + version)
 	print('------------------')
 	
-	if not os.path.isfile(config_name):
+	if not os.path.isfile(config_name) or os.path.isfile('replied.json'):
 		
 		config.write(current, config_name)
-		print('> Created config.json. Please edit the values in the config before continuing.')
+		print('> Created config.json & replied.json. Please edit the values in the config before continuing.')
 		sys.exit()
 		
 	conf = config.load(config_name)
