@@ -124,6 +124,7 @@ def loop(user, reddit, utils):
 					except:
 						
 						print('> Failed to post comment.')
+						traceback.print_exc(file = sys.stdout)
 						
 			print('\n> Sleeping.')
 			time.sleep(15)
