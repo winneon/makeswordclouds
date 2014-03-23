@@ -1,4 +1,4 @@
-import sys, os, re, time, argparse, getpass, praw, requests, reddit, config, wordcloud, pyimgur, json
+import sys, os, re, time, argparse, getpass, praw, requests, reddit, config, wordcloud, pyimgur
 
 current = {
 
@@ -11,12 +11,6 @@ current = {
 	
 	'limit': '',
 	'id': '',
-	
-}
-
-replied_current {
-	
-	'replied:': [],
 	
 }
 
@@ -33,10 +27,10 @@ def bootup():
 	print('\nMWC // version ' + version)
 	print('------------------')
 	
-	if not os.path.isfile(config_name) or os.path.isfile('replied.json'):
+	if not os.path.isfile(config_name):
 		
 		config.write(current, config_name)
-		print('> Created config.json & replied.json. Please edit the values in the config before continuing.')
+		print('> Created config.json. Please edit the values in the config before continuing.')
 		sys.exit()
 		
 	conf = config.load(config_name)
