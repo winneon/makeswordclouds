@@ -152,7 +152,7 @@ class Utils:
 			opened= open(self.replied_file).read()
 			resp = json.loads(opened)
 			
-		self.replied = set(resp)
+		self.replied = set(resp['replied'])
 		
 	def get_submission_comments(self, id):
 		
