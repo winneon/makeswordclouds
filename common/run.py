@@ -24,7 +24,7 @@ def bootup():
 	parse.add_argument('-l', '--login', action = 'store_true', help = 'Login to a different account than config account')
 	args = parse.parse_args()
 	
-	print('\nLFB // version ' + version)
+	print('\nMWC // version ' + version)
 	print('------------------')
 	
 	if not os.path.isfile(config_name):
@@ -40,7 +40,7 @@ def bootup():
 		print('> The limit in the config is not set! Please set it to a proper number.')
 		sys.exit()
 		
-	elif conf['limit'] > '100':
+	elif conf['limit'] > '50':
 		
 		print('> The limit in the config is over 100! Please make it a lower number.')
 		sys.exit()
