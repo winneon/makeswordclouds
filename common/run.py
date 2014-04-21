@@ -1,4 +1,5 @@
 import sys, os, re, time, argparse, getpass, praw, requests, reddit, config, wordcloud, pyimgur, json, traceback
+from requests import HTTPError
 
 current = {
 
@@ -21,10 +22,11 @@ replied_current = {
 }
 
 config_name = 'config.json'
+replied_name = 'replied.json'
 
 def bootup():
 	
-	version = "1.0"
+	version = "1.1"
 	
 	parse = argparse.ArgumentParser(description = 'LinkFixerBot')
 	parse.add_argument('-l', '--login', action = 'store_true', help = 'Login to a different account than config account')
@@ -33,10 +35,10 @@ def bootup():
 	print('\nMWC // version ' + version)
 	print('------------------')
 	
-	if not os.path.isfile(config_name) or not os.path.isfile('replied.json'):
+	if not os.path.isfile(config_name) or not os.path.isfile(replied_name):
 		
 		config.write(current, config_name)
-		config.write(replied_current, 'replied.json')
+		config.write(replied_current, replied_name)
 		print('> Created config.json & replied.json. Please edit the values in the config before continuing.')
 		sys.exit()
 		
@@ -121,6 +123,11 @@ def loop(user, reddit, utils):
 						
 						config.write(replied_current, utils.replied_file)
 						
+					except HTTPError, e:
+						
+						print('\n> An HTTP error occured trying to post the comment.')
+						print('> Response: %s' % e.response)
+						
 					except:
 						
 						print('> Failed to post comment.')
@@ -147,7 +154,7 @@ class Utils:
 		self.config = conf
 		self.reddit = reddit
 		
-		self.replied_file = 'replied.json'
+		self.replied_file = replied_name
 		resp = []
 		
 		if os.path.exists(self.replied_file):
@@ -202,4 +209,6 @@ class Utils:
 		
 		return upload.link
 		
-bootup()
+if __name__ == '__main__':
+
+	bootup()
