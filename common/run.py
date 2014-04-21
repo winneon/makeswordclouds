@@ -28,6 +28,7 @@ def bootup():
 	
 	parse = argparse.ArgumentParser(description = 'LinkFixerBot')
 	parse.add_argument('-l', '--login', action = 'store_true', help = 'Login to a different account than config account')
+	parse.add_argument('-s', '--submission', help = 'Login to a different account than config account')
 	args = parse.parse_args()
 	
 	print('\nMWC // version ' + version)
@@ -77,6 +78,7 @@ def bootup():
 	utils = Utils(conf, r)
 	
 	reddit.login(user, passwd, r)
+	
 	loop(user, r, utils)
 	
 def loop(user, reddit, utils):
