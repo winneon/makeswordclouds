@@ -28,7 +28,6 @@ def bootup():
 	
 	parse = argparse.ArgumentParser(description = 'LinkFixerBot')
 	parse.add_argument('-l', '--login', action = 'store_true', help = 'Login to a different account than config account')
-	parse.add_argument('-s', '--submission', help = 'Login to a different account than config account')
 	args = parse.parse_args()
 	
 	print('\nMWC // version ' + version)
@@ -78,7 +77,6 @@ def bootup():
 	utils = Utils(conf, r)
 	
 	reddit.login(user, passwd, r)
-	
 	loop(user, r, utils)
 	
 def loop(user, reddit, utils):
@@ -183,7 +181,9 @@ class Utils:
 			
 			if isinstance(comment, praw.objects.Comment):
 				
-				text += comment.body + '\n'
+				body = re.sub(r'https?://(?:www\.)?[A-z0-9-]+\.[A-z\.]+[\?A-z0-9&=/]*', '', comment.body, flags=re.IGNORECASE)
+				body = re.sub(r'&|<|>', '', body)
+				text += body + '\n'
 				
 		return text
 		
