@@ -12,6 +12,7 @@ current = {
 	
 	'limit': '',
 	'id': '',
+	'banned': '',
 	
 }
 
@@ -28,7 +29,7 @@ def bootup():
 	
 	version = "1.1"
 	
-	parse = argparse.ArgumentParser(description = 'LinkFixerBot')
+	parse = argparse.ArgumentParser(description = 'makeswordclouds')
 	parse.add_argument('-l', '--login', action = 'store_true', help = 'Login to a different account than config account')
 	args = parse.parse_args()
 	
@@ -49,9 +50,9 @@ def bootup():
 		print('> The limit in the config is not set! Please set it to a proper number.')
 		sys.exit()
 		
-	elif conf['limit'] > '50':
+	elif int(conf['limit']) > 200:
 		
-		print('> The limit in the config is over 100! Please make it a lower number.')
+		print('> The limit in the config is over 200! Please make it a lower number.')
 		sys.exit()
 		
 	if conf['id'] == '':
@@ -59,17 +60,20 @@ def bootup():
 		print('> The id in the config is not set! Please set it to an Imgur client id.')
 		sys.exit()
 		
-	if args.login:
+	user = conf['credentials']['username']
+	passwd = conf['credentials']['password']
+	
+	current['credentials']['username'] = user
+	current['credentials']['password'] = passwd
+	current['limit'] = conf['limit']
+	current['id'] = conf['id']
+	
+	if args.login or user == "" or passwd == "":
 		
 		user = raw_input('> Reddit username: ')
 		passwd = getpass.getpass("> %s's password: " % user)
 		
 		print
-		
-	else:
-		
-		user = conf['credentials']['username']
-		passwd = conf['credentials']['password']
 		
 	agent = (
 		'/u/' + user + ' running makeswordclouds, version ' + version + ', created by /u/WinneonSword.'
@@ -95,7 +99,9 @@ def loop(user, reddit, utils):
 			
 			for submission in submissions:
 				
-				if submission.id not in utils.replied and submission.num_comments >= 50:
+				sub = submission.subreddit.display_name.lower()
+				
+				if submission.id not in utils.replied and submission.num_comments >= int(utils.config['limit']) and sub not in utils.banned:
 					
 					print('\n> Found valid submission in the subreddit /r/' + submission.subreddit.display_name + '!')
 					
@@ -116,23 +122,24 @@ def loop(user, reddit, utils):
 						utils.handle_rate_limit(submission, reply)
 						
 						print('> Comment posted! Link: ' + upload)
-						utils.replied.add(submission.id)
-						
-						listt = list(utils.replied)
-						replied_current['replied'] = listt
-						
-						config.write(replied_current, utils.replied_file)
 						
 					except HTTPError, e:
 						
 						print('\n> An HTTP error occured trying to post the comment.')
 						print('> Response: %s' % e.response)
 						
+						if "403" in str(e.response):
+							
+							utils.add_banned_subreddit(sub)
+							print('> Added the subreddit %s to the banned list!' % sub)
+							
 					except:
 						
 						print('> Failed to post comment.')
 						traceback.print_exc(file = sys.stdout)
 						
+					utils.add_replied_submission(submission.id)
+					
 			print('\n> Sleeping.')
 			time.sleep(15)
 			
@@ -153,8 +160,13 @@ class Utils:
 		self.out = 'cloud.png'
 		self.config = conf
 		self.reddit = reddit
+		self.banned = set(conf['banned'])
 		
+		current = list(self.banned)
+		
+		self.config_file = config_name
 		self.replied_file = replied_name
+		
 		resp = []
 		
 		if os.path.exists(self.replied_file):
@@ -209,6 +221,23 @@ class Utils:
 		
 		return upload.link
 		
+	def add_replied_submission(self, id):
+		
+		self.replied.add(id)
+		replied_current['replied'] = list(self.replied)
+		
+		config.write(replied_current, self.replied_file)
+		
+	def add_banned_subreddit(self, subreddit):
+		
+		if subreddit not in self.banned:
+			
+			self.banned.add(subreddit)
+			current['banned'] = list(self.banned)
+			
+			config.write(current, self.config_file)
+			
 if __name__ == '__main__':
-
+	
 	bootup()
+	
