@@ -225,7 +225,7 @@ class Utils:
 			if isinstance(comment, praw.objects.Comment):
 				
 				body = re.sub(r'https?://(?:www\.)?[A-z0-9-]+\.[A-z\.]+[\?A-z0-9&=/]*', '', comment.body, flags=re.IGNORECASE)
-				body = re.sub(r'<.*?>|&.*?;', '', body)
+				body = re.sub(r'<.*?>|&.*?;|/.+?(?= )|/.*', '', body)
 				text += body + '\n'
 				
 		return text
