@@ -1,7 +1,6 @@
-import sys, os, re, time, argparse, getpass, praw, requests, reddit, config, pyimgur, json, traceback
+import sys, os, random, re, time, argparse, getpass, praw, requests, reddit, config, pyimgur, json, traceback
 from requests import HTTPError
 from wordcloud import WordCloud
-from HTMLParser import HTMLParser
 
 current = {
 
@@ -15,7 +14,6 @@ current = {
 	'limit': '',
 	'id': '',
 	'banned': '',
-	'font': '',
 	
 }
 
@@ -236,9 +234,9 @@ class Utils:
 		#elements = wordcloud.fit_words(words, width = 400, height = 400)
 		#wordcloud.draw(elements, self.out, width = 400, height = 400, scale = 2)
 		
-		cloud = WordCloud(font_path = self.config['font'], background_color = 'black', width = 400, height = 400, scale = 2)
+		cloud = WordCloud(font_path = "common/fonts/" + random.choice(os.listdir("common/fonts/")), background_color = 'black', width = 400, height = 400, scale = 2)
 		cloud.generate(text)
-		cloud.to_file(os.path.join(os.path.dirname(__file__), self.out))
+		cloud.to_file(self.out)
 		
 		return self.out
 		
