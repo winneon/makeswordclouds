@@ -30,7 +30,7 @@ replied_name = 'replied.json'
 
 def bootup():
 	
-	version = "1.1"
+	version = "1.2"
 	
 	parse = argparse.ArgumentParser(description = 'makeswordclouds')
 	parse.add_argument('-l', '--login', action = 'store_true', help = 'Login to a different account than config account')
@@ -164,7 +164,7 @@ def loop(user, reddit, utils):
 					utils.create_comment(submission)
 					
 			print('\n> Sleeping.')
-			time.sleep(15)
+			time.sleep(30)
 			
 	except KeyboardInterrupt:
 		
