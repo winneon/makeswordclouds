@@ -164,8 +164,8 @@ def loop(user, reddit, utils):
 					
 					utils.create_comment(submission)
 					
-			print('\n> Sleeping for 1 minute.')
-			time.sleep(60)
+			print('\n> Sleeping for 2 minutes.')
+			time.sleep(120)
 			
 	except KeyboardInterrupt:
 		
