@@ -1,5 +1,7 @@
-import sys, os, re, time, argparse, getpass, praw, requests, reddit, config, wordcloud, pyimgur, json, traceback
+import sys, os, re, time, argparse, getpass, praw, requests, reddit, config, pyimgur, json, traceback
 from requests import HTTPError
+from wordcloud import WordCloud
+from HTMLParser import HTMLParser
 
 current = {
 
@@ -13,6 +15,7 @@ current = {
 	'limit': '',
 	'id': '',
 	'banned': '',
+	'font': '',
 	
 }
 
@@ -94,6 +97,59 @@ def loop(user, reddit, utils):
 		
 		while True:
 			
+			inbox = None
+			inbox = reddit.get_unread(limit = None)
+			
+			print('\n> Checking mailbox for messages...')
+			
+			for message in inbox:
+				
+				try:
+					
+					if "+create " in message.body:
+						
+						print('\n> Found potentially valid request.')
+						
+						id = message.body.replace('+create ', '')
+						post = reddit.get_info(thing_id = 't3_' + id)
+						sub = post.subreddit.display_name.lower()
+						
+						if post.id not in utils.replied and sub not in utils.banned:
+							
+							print('> Submission is fully valid. Creating word cloud...')
+							utils.create_comment(post)
+							
+							print('\n> Word cloud posted!')
+							message.reply(
+								'Congratulations! **The word cloud has been created!** Thank you for using makeswordclouds services.\n\n'
+								'*****\n'
+								'[^source ^code](http://github.com/Winneon/makeswordclouds) ^| [^contact ^developer](http://reddit.com/user/WinneonSword)'
+							)
+							
+						elif sub in utils.banned:
+							
+							print('> The subreddit the submission is located in is located in the banned list!')
+							message.reply(
+								'I am deeply sorry, but the submission you have requested, located [here](' + post.permalink + '), is in a subreddit currently in our blacklist.'
+								'*****\n'
+								'[^source ^code](http://github.com/Winneon/makeswordclouds) ^| [^contact ^developer](http://reddit.com/user/WinneonSword)'
+							)
+							
+						else:
+							
+							print('> A word cloud has already been made for that post!')
+							message.reply(
+								'I am deeply sorry, but the submission you have requested, located [here](' + post.permalink + '), already has a word cloud comment created in it!'
+								'*****\n'
+								'[^source ^code](http://github.com/Winneon/makeswordclouds) ^| [^contact ^developer](http://reddit.com/user/WinneonSword)'
+							)
+							
+				except:
+					
+					print('> Failed to remove comment.')
+					
+				message.mark_as_read()
+				
 			print('\n> Checking submissions for valid entries...')
 			submissions = reddit.get_subreddit('all').get_hot(limit = 100)
 			
@@ -105,40 +161,7 @@ def loop(user, reddit, utils):
 					
 					print('\n> Found valid submission in the subreddit /r/' + submission.subreddit.display_name + '!')
 					
-					text = utils.get_submission_comments(submission.id)
-					cloud = utils.make_cloud(text)
-					upload = utils.upload_image(cloud)
-					
-					print('> Successfully made word cloud and uploaded to imgur!')
-					os.remove(cloud)
-					
-					try:
-						
-						reply = (
-							'Here is a word cloud of all of the comments in this thread: ' + upload + '\n\n'
-							'*****\n'
-							'[^source ^code](https://github.com/WinneonSword/makeswordclouds) ^| [^contact ^developer](http://reddit.com/user/WinneonSword)'
-						)
-						utils.handle_rate_limit(submission, reply)
-						
-						print('> Comment posted! Link: ' + upload)
-						
-					except HTTPError, e:
-						
-						print('\n> An HTTP error occured trying to post the comment.')
-						print('> Response: %s' % e.response)
-						
-						if "403" in str(e.response):
-							
-							utils.add_banned_subreddit(sub)
-							print('> Added the subreddit %s to the banned list!' % sub)
-							
-					except:
-						
-						print('> Failed to post comment.')
-						traceback.print_exc(file = sys.stdout)
-						
-					utils.add_replied_submission(submission.id)
+					utils.create_comment(submission)
 					
 			print('\n> Sleeping.')
 			time.sleep(15)
@@ -201,16 +224,20 @@ class Utils:
 			if isinstance(comment, praw.objects.Comment):
 				
 				body = re.sub(r'https?://(?:www\.)?[A-z0-9-]+\.[A-z\.]+[\?A-z0-9&=/]*', '', comment.body, flags=re.IGNORECASE)
-				body = re.sub(r'&|<|>', '', body)
+				body = re.sub(r'<.*?>|&.*?;', '', body)
 				text += body + '\n'
 				
 		return text
 		
 	def make_cloud(self, text):
 		
-		words = wordcloud.process_text(text)
-		elements = wordcloud.fit_words(words, width = 400, height = 400)
-		wordcloud.draw(elements, self.out, width = 400, height = 400, scale = 2)
+		#words = wordcloud.process_text(text)
+		#elements = wordcloud.fit_words(words, width = 400, height = 400)
+		#wordcloud.draw(elements, self.out, width = 400, height = 400, scale = 2)
+		
+		cloud = WordCloud(font_path = self.config['font'], background_color = 'black', width = 400, height = 400, scale = 2)
+		cloud.generate(text)
+		cloud.to_file(os.path.join(os.path.dirname(__file__), self.out))
 		
 		return self.out
 		
@@ -236,6 +263,45 @@ class Utils:
 			current['banned'] = list(self.banned)
 			
 			config.write(current, self.config_file)
+			
+	def create_comment(self, submission):
+		text = self.get_submission_comments(submission.id)
+		cloud = self.make_cloud(text)
+		upload = self.upload_image(cloud)
+		
+		print('> Successfully made word cloud and uploaded to imgur!')
+		os.remove(cloud)
+		
+		try:
+			
+			reply = (
+				'Here is a word cloud of all of the comments in this thread: ' + upload + '\n\n'
+				'If the mods feel the need to blacklist this bot, feel free to ban this account. Thank you!\n\n'
+				'*****\n'
+				'[^source ^code](https://github.com/Winneon/makeswordclouds) ^| [^contact ^developer](http://reddit.com/user/WinneonSword)'
+			)
+			self.handle_rate_limit(submission, reply)
+			
+			print('> Comment posted! Link: ' + upload)
+			
+		except HTTPError, e:
+			
+			print('\n> An HTTP error occured trying to post the comment.')
+			print('> Response: %s' % e.response)
+			
+			if "403" in str(e.response):
+				
+				sub = submission.subreddit.display_name.lower()
+				
+				self.add_banned_subreddit(sub)
+				print('> Added the subreddit %s to the banned list!' % sub)
+				
+		except:
+			
+			print('> Failed to post comment.')
+			traceback.print_exc(file = sys.stdout)
+			
+		self.add_replied_submission(submission.id)
 			
 if __name__ == '__main__':
 	
