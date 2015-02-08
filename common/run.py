@@ -90,7 +90,7 @@ def bootup():
 	
 def loop(user, reddit, utils):
 	
-	print('\n> Booting up makeswordclouds. You will be notified when makeswordclouds detects a broken link.')
+	print('\n> Booting up makeswordclouds.')
 	print('> To stop the bot, press Ctrl + C.')
 	
 	try:
