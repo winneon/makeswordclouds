@@ -144,11 +144,12 @@ def loop(user, reddit, utils):
 								'[^source ^code](http://github.com/Winneon/makeswordclouds) ^| [^contact ^developer](http://reddit.com/user/WinneonSword)'
 							)
 							
+						message.mark_as_read()
+							
 				except:
 					
 					print('> Failed to remove comment.')
-					
-				message.mark_as_read()
+					message.mark_as_read()
 				
 			print('\n> Checking submissions for valid entries...')
 			submissions = reddit.get_subreddit('all').get_hot(limit = 100)
@@ -163,8 +164,8 @@ def loop(user, reddit, utils):
 					
 					utils.create_comment(submission)
 					
-			print('\n> Sleeping.')
-			time.sleep(30)
+			print('\n> Sleeping for 1 minute.')
+			time.sleep(60)
 			
 	except KeyboardInterrupt:
 		
