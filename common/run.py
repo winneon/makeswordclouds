@@ -121,7 +121,7 @@ def loop(user, reddit, utils):
 							message.reply(
 								'Congratulations! **The word cloud has been created!** Thank you for using makeswordclouds services.\n\n'
 								'*****\n'
-								'[^source ^code](http://github.com/Winneon/makeswordclouds) ^| [^contact ^developer](http://reddit.com/user/WinneonSword)'
+								'[^source ^code](http://github.com/Winneon/makeswordclouds) ^| [^contact ^developer](http://np.reddit.com/user/WinneonSword)'
 							)
 							
 						elif sub in utils.banned:
@@ -130,7 +130,7 @@ def loop(user, reddit, utils):
 							message.reply(
 								'I am deeply sorry, but the submission you have requested, located [here](' + post.permalink + '), is in a subreddit currently in our blacklist.'
 								'*****\n'
-								'[^source ^code](http://github.com/Winneon/makeswordclouds) ^| [^contact ^developer](http://reddit.com/user/WinneonSword)'
+								'[^source ^code](http://github.com/Winneon/makeswordclouds) ^| [^contact ^developer](http://np.reddit.com/user/WinneonSword)'
 							)
 							
 						else:
@@ -139,7 +139,7 @@ def loop(user, reddit, utils):
 							message.reply(
 								'I am deeply sorry, but the submission you have requested, located [here](' + post.permalink + '), already has a word cloud comment created in it!'
 								'*****\n'
-								'[^source ^code](http://github.com/Winneon/makeswordclouds) ^| [^contact ^developer](http://reddit.com/user/WinneonSword)'
+								'[^source ^code](http://github.com/Winneon/makeswordclouds) ^| [^contact ^developer](http://np.reddit.com/user/WinneonSword)'
 							)
 							
 						message.mark_as_read()
@@ -277,7 +277,7 @@ class Utils:
 				'Here is a word cloud of all of the comments in this thread: ' + upload + '\n\n'
 				'If the mods feel the need to blacklist this bot, feel free to ban this account. Thank you!\n\n'
 				'*****\n'
-				'[^source ^code](https://github.com/Winneon/makeswordclouds) ^| [^contact ^developer](http://reddit.com/user/WinneonSword)'
+				'[^source ^code](https://github.com/Winneon/makeswordclouds) ^| [^contact ^developer](http://np.reddit.com/user/WinneonSword)'
 			)
 			self.handle_rate_limit(submission, reply)
 			
