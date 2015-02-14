@@ -1,3 +1,5 @@
 src/
 *.pyc
 *.json
+*.ttf
+*.otf
