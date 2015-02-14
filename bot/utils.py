@@ -63,7 +63,7 @@ class Utils:
 	def make_cloud(self, text):
 		
 		self.start = random.randint(0, 255)
-		cloud = WordCloud(font_path = 'bot/fonts/' + random.choice(os.listdir('bot/fonts/')), background_color = 'rgb(10, 10, 10)', width = 1280, height = 720, scale = 1, color_func = self.light_colour_func)
+		cloud = WordCloud(font_path = 'bot/fonts/' + random.choice(os.listdir('bot/fonts/')), background_color = 'black', width = 1280, height = 720, scale = 1, color_func = self.light_colour_func)
 		cloud.generate(text)
 		cloud.to_file(self.out)
 		
