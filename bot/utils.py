@@ -134,7 +134,7 @@ class Utils:
 		self.add_replied_submission(submission.id)
 
 	def get_footer(self):
-		return '\n[^source ^code](http://github.com/Winneon/makeswordclouds) ^| [^contact ^developer](http://reddit.com/user/WinneonSword) ^| [^faq](https://github.com/Winneon/makeswordclouds/blob/master/README.md#user-content-faq)'
+		return '\n[^source ^code](http://github.com/Winneon/makeswordclouds) ^| [^contact ^developer](http://reddit.com/user/WinneonSword) ^| [^faq](https://github.com/Winneon/makeswordclouds#faq)'
 
 	def light_colour_func(self, word, font_size, position, oreientation, random_state):
 		return 'hsl(%s, %s%%, %s%%)' % (self.start + random.randint(0, 75), random.randint(50, 80), random.randint(50, 100))
