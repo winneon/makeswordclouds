@@ -118,21 +118,21 @@ def loop(user, reddit, utils):
 
 						print('> The request is not valid!')
 						message.reply(
-							'I am deeply sorry, but the link you provided is not a valid link!' + utils.get_footer()
+							'I am deeply sorry, but the link you provided is not a valid link!  ' + utils.get_footer()
 						)
 
 					elif submission.id in utils.replied:
 
 						print('> A word cloud has already been made for that post!')
 						message.reply(
-							'I am deeply sorry, but the submission you have requested, located [here](' + submission.permalink + '), already has a word cloud comment created in it!' + utils.get_footer()
+							'I am deeply sorry, but the submission you have requested, located [here](' + submission.permalink + '), already has a word cloud comment created in it!  ' + utils.get_footer()
 						)
 
 					elif sub in utils.banned:
 
 						print('> The subreddit the submission is located in is located in the banned list!')
 						message.reply(
-							'I am defeply sorry, but the submission you have requested, located [here](' + submission.permalink + '), is in a subreddit currently in our blacklist.' + utils.get_footer()
+							'I am defeply sorry, but the submission you have requested, located [here](' + submission.permalink + '), is in a subreddit currently in our blacklist.  ' + utils.get_footer()
 						)
 
 					else:
@@ -142,7 +142,7 @@ def loop(user, reddit, utils):
 
 						print('\n> Word cloud posted!')
 						message.reply(
-							'Congratulations! The word cloud has been created! Thank you for using makeswordclouds services.' + utils.get_footer()
+							'Congratulations! The word cloud has been created! Thank you for using makeswordclouds services.  ' + utils.get_footer()
 						)
 
 					message.mark_as_read()
