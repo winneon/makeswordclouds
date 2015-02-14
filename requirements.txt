@@ -1,0 +1,6 @@
+cython>=0.19.1
+image>=1.1.7
+numpy>=1.7.1
+pyimgur
+praw
+-e git://github.com/amueller/word_cloud.git#egg=word_cloud
