@@ -137,14 +137,23 @@ def loop(user, reddit, utils):
 
 					else:
 
-						print('> Submission is fully valid. Creating word cloud...')
-						utils.create_comment(submission, author = message.author.name)
+						try:
 
-						print('\n> Word cloud posted!')
-						message.reply(
-							'Congratulations! The word cloud has been created! Thank you for using makeswordclouds services.  ' + utils.get_footer()
-						)
+							print('> Submission is fully valid. Creating word cloud...')
+							utils.create_comment(submission, author = message.author.name)
 
+							print('\n> Word cloud posted!')
+							message.reply(
+								'Congratulations! The word cloud has been created! Thank you for using makeswordclouds services.  ' + utils.get_footer()
+							)
+
+						except:
+
+							print('> An error occured creating the word cloud.')
+							message.reply(
+								'An error occurred creating the requested word cloud. If the permalink you provided does not have any comments, then this is most likely the issue.  ' + utils.get_footer()
+							)
+							
 					message.mark_as_read()
 
 			print('\n> Checking submissions for valid entries...')
