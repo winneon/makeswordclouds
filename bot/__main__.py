@@ -132,7 +132,7 @@ def loop(user, reddit, utils):
 
 						print('> The subreddit the submission is located in is located in the banned list!')
 						message.reply(
-							'I am defeply sorry, but the submission you have requested, located [here](' + submission.permalink + '), is in a subreddit currently in our blacklist.  ' + utils.get_footer()
+							'I am deeply sorry, but the submission you have requested, located [here](' + submission.permalink + '), is in a subreddit currently in our blacklist.  ' + utils.get_footer()
 						)
 
 					else:
