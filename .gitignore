@@ -1,0 +1,5 @@
+praw.ini
+*.json
+*.pyc
+*.ttf
+*.otf
