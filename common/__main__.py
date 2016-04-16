@@ -11,7 +11,7 @@ import cloud
 
 class Main:
 	def __init__(self):
-		self.version = "2.0.0-a"
+		self.version = "2.0.1"
 
 		self.c = config.Config("config.json",
 			{
@@ -95,7 +95,9 @@ class Main:
 			self.d.save()
 		except:
 			print "> An error occured. Restarting."
+
 			traceback.print_exc(file=sys.stdout)
+			self.loop()
 
 if __name__ == "__main__":
 	Main().loop()

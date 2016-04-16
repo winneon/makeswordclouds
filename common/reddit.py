@@ -85,7 +85,12 @@ class Reddit:
 
 				try:
 					permalink = message.body.replace("+create ", "")
-					submission = self.reddit.get_submission(url=permalink)
+
+					if "redd.it" in permalink:
+						short = permalink.replace("http://redd.it/", "").replace("https://redd.it/", "")
+						submission = self.reddit.get_submission(submission_id=short)
+					else:
+						submission = self.reddit.get_submission(url=permalink)
 				except:
 					pass
 
